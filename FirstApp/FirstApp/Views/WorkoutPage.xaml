@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:FirstApp.Models"
+             x:Class="FirstApp.WorkoutPage"
+             Title="Workout">
+    <ContentPage.Resources>
+        <Style TargetType="Label">
+            <Setter Property="BackgroundColor" Value="Gray"/>
+            <Setter Property="TextColor" Value="Black"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+            <Setter Property="VerticalTextAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="Entry">
+            <Setter Property="BackgroundColor" Value="Gray"/>
+            <Setter Property="TextColor" Value="Black"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+            <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
+            <Setter Property="PlaceholderColor" Value="Black"/>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="BackgroundColor" Value="Gray"/>
+            <Setter Property="TextColor" Value="Black"/>
+            <Setter Property="CornerRadius" Value="0"/>
+        </Style>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout BackgroundColor="Black">
+            <Entry Text ="{Binding WorkoutName}"
+                   Placeholder="{Binding WorkoutName}"
+                   HorizontalOptions="FillAndExpand"
+                   HorizontalTextAlignment="Center"
+                   FontSize="24"
+                   TextChanged="TitleEntryCompleted"/>
+            <ListView ItemsSource="{Binding exerciseList}" 
+                      HasUnevenRows="True"
+                      BackgroundColor="Black">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid Padding="0,10,0,10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Text="Exercise: "
+                                       Grid.Row="0"
+                                       Grid.Column="0"/>
+                                <Entry Text="{Binding Name}"
+                                       Grid.ColumnSpan="2"
+                                       Grid.Row="0"
+                                       Grid.Column="1"
+                                       TextChanged="NameEntryCompleted"/>
+                                <Button Text="Delete"
+                                        Grid.Row="0"
+                                        Grid.Column="3"
+                                        Clicked="DeleteButton"
+                                        CommandParameter="{Binding .}"/>
+                                <Label Text="Weight: "
+                                       Grid.Row="1"
+                                       Grid.Column="0"/>
+                                <Entry x:Name="WeightEntry"
+                                       Placeholder="{Binding Weight, StringFormat='{0} lbs'}"
+                                       Grid.Row="1"
+                                       Grid.Column="1"
+                                       MaxLength="3"
+                                       Keyboard="Numeric"
+                                       TextChanged="WeightEntryCompleted"
+                                       ReturnCommandParameter="{Binding .}"/>
+                                <Label Text="Sets: "
+                                       Grid.Row="2"
+                                       Grid.Column="0"/>
+                                <Entry x:Name="SetsEntry" 
+                                       Placeholder="{Binding Sets, StringFormat='{0} sets'}"
+                                       Grid.Row="2"
+                                       Grid.Column="1"
+                                       MaxLength="2"
+                                       Keyboard="Numeric"
+                                       
+                                       TextChanged="SetsEntryCompleted">
+                                    <Entry.Behaviors>
+                                        <local:UnitsBehavior/>
+                                    </Entry.Behaviors>
+                                </Entry>
+                                <Label Text="Rep Range: "
+                                       Grid.Row="3"
+                                       Grid.Column="0"/>
+                                <Entry x:Name="LowRepsEntry" 
+                                       Placeholder="{Binding LowReps, StringFormat='{0} reps'}"
+                                       Grid.Row="3"
+                                       Grid.Column="1"
+                                       MaxLength="2"
+                                       Keyboard="Numeric"
+                                       TextChanged="LowRepsEntryCompleted"/>
+                                <Label Text="Rest Time: "
+                                       Grid.Row="1"
+                                       Grid.Column="2"/>
+                                <Entry x:Name="RestEntry" 
+                                       Placeholder="{Binding Rest, StringFormat='{0} secs'}"
+                                       Grid.Row="1"
+                                       Grid.Column="3"
+                                       MaxLength="3"
+                                       Keyboard="Numeric"
+                                       TextChanged="RestEntryCompleted"/>
+                                <Label Text="Work Time: "
+                                       Grid.Row="2"
+                                       Grid.Column="2"/>
+                                <Entry x:Name="SetTimeEntry" 
+                                       Placeholder="{Binding SetTime, StringFormat='{0} secs'}"
+                                       Grid.Row="2"
+                                       Grid.Column="3"
+                                       MaxLength="3"
+                                       Keyboard="Numeric"
+                                       TextChanged="SetTimeEntryCompleted"/>
+                                <Label Text=" to "
+                                       Grid.Row="3"
+                                       Grid.Column="2"
+                                       HorizontalTextAlignment="Center"/>
+                                <Entry x:Name="HighRepsEntry" 
+                                       Placeholder="{Binding HighReps, StringFormat='{0} reps'}"
+                                       Grid.Row="3"
+                                       Grid.Column="3"
+                                       MaxLength="2"
+                                       Keyboard="Numeric"
+                                       TextChanged="HighRepsEntryCompleted"/>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.ColumnSpan="2"
+                    Text="Add Exercise"
+                    Clicked="AddExerciseButton"/>
+                <Button Grid.Column="0"
+                        Grid.Row="1"
+                        Text="Save"
+                        Clicked="SaveButton"/>
+                <Button Grid.Column="1"
+                        Grid.Row="1"
+                        Text="Cancel"
+                        Clicked="CancelButton"/>
+            </Grid>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

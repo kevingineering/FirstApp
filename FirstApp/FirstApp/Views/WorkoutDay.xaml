@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FirstApp.WorkoutDay"
+             Title="{Binding Workout.Name}">
+    <ContentPage.Resources>
+        <Style TargetType="ContentPage">
+            <Setter Property="BackgroundColor" Value="Black"/>
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="BackgroundColor" Value="Gray"/>
+            <Setter Property="TextColor" Value="Black"/>
+            <Setter Property="FontSize" Value="24"/>
+        </Style>
+        <Style TargetType="ImageButton">
+            <Setter Property="HorizontalOptions" Value="Center"/>
+            <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
+            <Setter Property="HeightRequest" Value="40"/>
+        </Style>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <AbsoluteLayout>
+            <StackLayout AbsoluteLayout.LayoutBounds="0,0,1,1"
+                         AbsoluteLayout.LayoutFlags="All"
+                         Margin="0,0,0,0" 
+                         Padding="0,5,0,0"
+                         BackgroundColor="Black">
+                <Grid BackgroundColor="Black">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
+                    </Grid.RowDefinitions>
+                    <Label x:Name="Status"
+                           Grid.RowSpan="3"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center"
+                           VerticalTextAlignment="Center"
+                           FontSize="36"
+                           Text="{Binding Source={x:Reference Status}, Path=Value}"
+                           HeightRequest="160"
+                           WidthRequest="500"/>
+                    <Label x:Name="Weight" 
+                           Grid.Row="0"
+                           Grid.Column="1"
+                           Text="Weight"/>
+                    <Label x:Name="Set"
+                           Grid.Row="1"
+                           Grid.Column="1"
+                           Text="Set"/>
+                    <Label x:Name="RepRange"
+                           Grid.Row="2"
+                           Grid.Column="1"
+                           Text="RepRange"/>
+                </Grid>
+                <Button x:Name="AppTimer"
+                        FontSize="60"
+                        HorizontalOptions="Center"
+                        VerticalOptions="CenterAndExpand"
+                        HeightRequest="180"
+                        WidthRequest="180"
+                        CornerRadius="180"
+                        BackgroundColor="Black"
+                        TextColor="Gray"
+                        BorderWidth="10"
+                        BorderColor="Gray"
+                        Clicked="OnPauseButtonClicked"/>
+                <Grid VerticalOptions="End" Margin="0" BackgroundColor="Gray">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="60"/>
+                    </Grid.RowDefinitions>
+                    <ImageButton Grid.Column="0"
+                                 Source="StopSymbol.png"
+                                 Clicked="OnStopButtonClicked"/>
+                    <!-- https://github.com/xamarin/Xamarin.Forms/issues/4510 -->
+                    <ImageButton x:Name="PauseOrPlay"
+                                 Grid.Column="1"
+                                 Source="PauseOrPlay"
+                                 Clicked="OnPauseButtonClicked"/>
+                    <ImageButton Grid.Column="2"
+                                 Source="FastForwardSymbol.png"
+                                 Clicked="OnFastForwardButtonClicked"/>
+                    <!--Edited images to have a gray background - Using BackgroundColor with the images causes them to shrink when clicked due to 
+                    bug inherent to xamarin, could have also reloaded pictures every time using OnAppearing (I am doing something similar to this 
+                    on the start page whenever a workout is deleted, otherwise the text on the buttons shifts to the left side-->
+                </Grid>
+            </StackLayout>
+            <ContentView x:Name="BlackPage" BackgroundColor="Black" IsVisible="false" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All" />
+            <ContentView x:Name="RepsTotal" BackgroundColor="Black" Padding="10, 0" IsVisible="false" AbsoluteLayout.LayoutBounds="0.5, 0.3, 300, 200" AbsoluteLayout.LayoutFlags="PositionProportional">
+                <StackLayout>
+                    <StackLayout Orientation="Vertical">
+                        <Label Margin="20,0,20,0" 
+                               Text="How many reps did you complete?"
+                               FontSize="20"
+                               TextColor="Black"/>
+                        <Entry x:Name="RepsEntry" 
+                               HorizontalTextAlignment="Center"
+                               TextChanged ="RepsCompleted" 
+                               BackgroundColor="Gray"
+                               Margin="20,0,20,0" 
+                               Placeholder="Total Reps"
+                               MaxLength="2"
+                               Keyboard="Numeric"/>
+                        <Button x:Name="RepsButton" 
+                                Margin="20,0,20,0" 
+                                BackgroundColor="Gray"
+                                Text="Save"
+                                Clicked="RepButtonClicked"/>
+                    </StackLayout>
+                </StackLayout>
+            </ContentView>
+        </AbsoluteLayout>
+    </ContentPage.Content>
+</ContentPage>
